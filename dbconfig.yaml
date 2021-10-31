@@ -1,0 +1,5 @@
+secret_key: 'secret'
+mysql_host: 'localhost'
+mysql_user: 'root'
+mysql_password: '2235425'
+mysql_db: 'ssis'

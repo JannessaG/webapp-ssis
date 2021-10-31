@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SIS</title>
+  <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="{{url_for('static',filename='css/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" >
+  <link href="{{url_for('static',filename='css/students.css')}}" rel="stylesheet" type="text/css" >
+
+  <style>
+      body
+      {
+        background-repeat: :norepeat;
+        background=atatched: fixed;
+        background-size: cover;
+        background-image:url({{url_for('static',filename='builtin/wp4720655.jpg')}})
+      }
+  </style>
+</head>
+
+<body>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header"> 
+        </div>
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="{{url_for('students')}}">Students</a></li>
+                <li><a href="{{url_for('courses')}}">Courses</a></li>
+                <li><a href="{{url_for('colleges')}}">Colleges</a></li>
+              </ul>
+            
+        </div>
+      </nav>
+    {% block body %}
+
+
+  <div class="container">
+    <div class="well">
+    <h1 align="center">STUDENT INFORMATION SYSTEM</h1>
+    </div>
+    <div class="well">
+     <form class="example" action="{{url_for('search')}}" method="POST">
+       <input type="text" placeholder="Search by fields.." name="search">
+       <button type="submit"><i class="fa fa-search"></i></button>
+     </form>
+    </div>
+
+
+    <div class="well">
+    <div class="row">
+        <div class="col md-12">
+           <h1>Student List<button type="button" class="btn btn-success pull-right" data-toggle = "modal" data-target= "#mymodal">Add Student</button></h1>
+
+
+           {% with messages = get_flashed_messages() %}
+
+           {% if messages %}
+
+           {% for message in messages %}
+           <div class="alert alert-success alert-dimissable" role="alert">
+             <button type="button" class="close" data-dismiss="alert" aria-label="close">
+               <span aria-hidden="true">x</span>
+             </button>
+              {{message}}
+           </div>
+
+           {% endfor %}
+           {% endif %}
+           {% endwith %}
+
+           <table class="table table-stripped">
+            <tr>
+              <th>ID no.</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Course</th>
+              <th>Year</th>
+              <th>Gender</th>
+              <th>Actions</th>
+            </tr>
+
+            {% for student in students %}
+            <tr>
+              <td>{{student.0}}</td>
+              <td>{{student.1}}</td>
+              <td>{{student.2}}</td>
+              <td>{{student.3}}</td>
+              <td>{{student.4}}</td>
+              <td>{{student.5}}</td>
+              
+
+              <!--for actions--> 
+              <td>
+                <a  href="/update/{{student.0}}" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{student.0}}">Update</a>
+                <a  href="/delete/{{student.0}}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete?')">Delete</a>
+              </td>
+            </tr>
+
+            
+            
+        </div>
+    </div>
+  </div>
+  </div>
+
+   <div id="modaledit{{student.0}}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><i>Update Information Student ID:</i><strong>{{student.0}}</strong></h4>
+        </div>
+
+        <div class="modal-body">
+          <form action="{{url_for('update')}}" method="POST">
+         
+
+            <div class="form-group">
+              <label>ID no:</label>
+              <input type="hidden"  name="idno" value="{{student.0}}">
+              <input type="text" class="form-control" name="idno" value="{{student.0}}" required="1">
+            </div>
+
+
+            <div class="form-group">
+              <label>First Name:</label>
+              <input type="text" class="form-control" name="firstName" value="{{student.1}}" required="1">
+            </div>
+
+            <div class="form-group">
+              <label>Last Name:</label>
+              <input type="text" class="form-control" name="lastName" value="{{student.2}}" required="1">
+            </div>
+
+            <div class="form-group">
+              <label>Course:</label>
+              <input type="text" class="form-control" name="course" value="{{student.3}}" required="1">
+            </div>
+
+             <div class="form-group">
+              <label>Year:</label>
+              <select name="year" id="year" class="form-control" value="{{student.4}}"  >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Gender:</label>
+              <select name="gender" id="gender" class="form-control" value="{{student.5}}" >
+                <option value="F">F</option>
+                <option value="M">M</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+                  <button class="btn btn-primary" type="submit">Update Data</button>
+
+            </div>
+          </form>
+        </div>
+
+        
+      </div>
+    </div>
+    
+  </div>
+
+  {% endfor %}
+
+
+  <div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+          <h4 class="modal-title">Add New Student Information</h4>
+        </div>
+
+        <div class="modal-body">
+          <form action="{{url_for('insert')}}" method="POST">
+
+            <div class="form-group">
+              <label>ID no:</label>
+              <input type="text" class="form-control" name="idno" required="1">
+            </div>
+
+            <div class="form-group">
+              <label>First Name:</label>
+              <input type="text" class="form-control" name="firstName" required="1">
+            </div>
+
+            <div class="form-group">
+              <label>Last Name:</label>
+              <input type="text" class="form-control" name="lastName" required="1">
+            </div>
+
+            <div class="form-group">
+              <label>Course:</label>
+              <input type="text" class="form-control" name="course" required="1">
+            </div>
+
+<!--
+            <div class="row">
+            <div class="col-md-6">
+              <label>Course:</label>
+              <select name="course" data-live-search="true" id="course" class="form-control" title="Course:" >
+              {% for row in courses %}
+              <option>{{row.courseCode}}</option>
+              {% endfor %}
+            </select>
+            </div>
+          </div>
+-->
+
+            <div class="form-group">
+              <label>Year:</label>
+              <select name="year" id="year" class="form-control" >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Gender:</label>
+              <select name="gender" id="gender" class="form-control">
+                <option value="F">F</option>
+                <option value="M">M</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+                  <button class="btn btn-success" type="submit">Add student</button>
+
+            </div>
+          </form>
+        </div>
+
+
+        
+      </div>
+    </div>
+    
+  </div>
+
+   </table>
+   {% endblock %}
+
+
+
+  </div> 
+   
+
+
+</body>
+<script type="text/javascript" src="{{url_for('static',filename='js/jquery-3.2.1.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='js/bootstrap-select.js')}}"></script>
+
+
+</html>
