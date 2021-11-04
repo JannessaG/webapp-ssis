@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="{{url_for('static',filename='css/students.css')}}" rel="stylesheet" type="text/css" >
 
+
   <style>
       body
       {
@@ -41,7 +42,7 @@
     </div>
     <div class="well">
      <form class="example" action="{{url_for('courseSearch')}}" method="POST">
-       <input type="text" placeholder="Search by fields.." name="search">
+       <input type="text" placeholder="Search.." name="search">
        <button type="submit"><i class="fa fa-search"></i></button>
      </form>
     </div>
@@ -70,7 +71,8 @@
 
            <table class="table table-stripped">
             <tr>
-              <th>Code</th>
+              <th>Course No.</th>
+              <th>Course Code</th>
               <th>Course</th>
               <th>College</th>
               <th>Action</th>
@@ -82,6 +84,7 @@
               <td>{{course.0}}</td>
               <td>{{course.1}}</td>
               <td>{{course.2}}</td>
+              <td>{{course.3}}</td>
 
 
               <!--for actions--> 
@@ -103,30 +106,26 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><i>Update Course :</i><strong>{{course.0}}</strong></h4>
+          <h4 class="modal-title"><i>Update Course :</i><strong>{{course.1}}</strong></h4>
         </div>
 
         <div class="modal-body">
           <form action="{{url_for('courseUpdate')}}" method="POST">
 
-            <!-- value is an example change it later -->
-         
-
         <div class="form-group">
               <label>Course Code:</label>
-    
-              <input type="text" class="form-control" name="courseCode" value="{{course.0}}" required="1">
+              <input type="hidden"  name="courseno" value="{{course.0}}">
+              <input type="text" class="form-control" name="courseCode" value="{{course.1}}" required="1">
             </div>
 
             <div class="form-group">
               <label>Course:</label>
-              <input type="text" class="form-control" name="courseName" value="{{course.1}}" required="1">
+              <input type="text" class="form-control" name="courseName" value="{{course.2}}" required="1">
             </div>
-
 
             <div class="form-group">
               <label>College:</label>
-              <input type="text" class="form-control" name="courseCollege" value="{{course.2}}" required="1">
+              <input type="text" class="form-control" name="courseCollege" value="{{course.3}}" required="1">
             </div>
 
             <div class="form-group">
@@ -194,12 +193,6 @@
 
 
   </div> 
-   
-
-
-
-   
-
 </body>
 <script type="text/javascript" src="{{url_for('static',filename='js/jquery-3.2.1.min.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>

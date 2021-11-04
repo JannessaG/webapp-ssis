@@ -5,8 +5,8 @@
   <title>SIS</title>
   <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="{{url_for('static',filename='css/bootstrap-select.min.css')}}" rel="stylesheet" type="text/css" >
   <link href="{{url_for('static',filename='css/students.css')}}" rel="stylesheet" type="text/css" >
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
   <style>
       body
@@ -41,7 +41,7 @@
     </div>
     <div class="well">
      <form class="example" action="{{url_for('search')}}" method="POST">
-       <input type="text" placeholder="Search by fields.." name="search">
+       <input type="text" placeholder="Search.." name="search">
        <button type="submit"><i class="fa fa-search"></i></button>
      </form>
     </div>
@@ -71,6 +71,7 @@
 
            <table class="table table-stripped">
             <tr>
+              <th>No.</th>
               <th>ID no.</th>
               <th>First Name</th>
               <th>Last Name</th>
@@ -88,6 +89,8 @@
               <td>{{student.3}}</td>
               <td>{{student.4}}</td>
               <td>{{student.5}}</td>
+              <td>{{student.6}}</td>
+
               
 
               <!--for actions--> 
@@ -109,7 +112,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"><i>Update Information Student ID:</i><strong>{{student.0}}</strong></h4>
+          <h4 class="modal-title"><i>Update Information Student ID:</i><strong>{{student.1}}</strong></h4>
         </div>
 
         <div class="modal-body">
@@ -118,29 +121,30 @@
 
             <div class="form-group">
               <label>ID no:</label>
-              <input type="hidden"  name="idno" value="{{student.0}}">
-              <input type="text" class="form-control" name="idno" value="{{student.0}}" required="1">
+              <input type="hidden"  name="no" value="{{student.0}}">
+              <input type="text" class="form-control" name="idno" value="{{student.1}}" required="1">
             </div>
 
 
             <div class="form-group">
               <label>First Name:</label>
-              <input type="text" class="form-control" name="firstName" value="{{student.1}}" required="1">
+              <input type="text" class="form-control" name="firstName" value="{{student.2}}" required="1">
             </div>
 
             <div class="form-group">
               <label>Last Name:</label>
-              <input type="text" class="form-control" name="lastName" value="{{student.2}}" required="1">
+              <input type="text" class="form-control" name="lastName" value="{{student.3}}" required="1">
             </div>
 
             <div class="form-group">
               <label>Course:</label>
-              <input type="text" class="form-control" name="course" value="{{student.3}}" required="1">
+              <input type="text" class="form-control" name="course" value="{{student.4}}" required="1">
             </div>
 
              <div class="form-group">
               <label>Year:</label>
-              <select name="year" id="year" class="form-control" value="{{student.4}}"  >
+              <select name="year" id="year" class="form-control" value="{{student.5}}">
+                <option selected="">{{student.5}}</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -151,9 +155,13 @@
 
             <div class="form-group">
               <label>Gender:</label>
-              <select name="gender" id="gender" class="form-control" value="{{student.5}}" >
+              <select name="gender" id="gender" class="form-control" value="{{student.6}}" >
+                <option selected="">{{student.6}}</option>
                 <option value="F">F</option>
                 <option value="M">M</option>
+                <option value="Bi">Bi</option>
+                <option value="Trans">Trans</option>
+                <option value="Queer">Queer</option>
               </select>
             </div>
 
@@ -201,20 +209,17 @@
               <input type="text" class="form-control" name="lastName" required="1">
             </div>
 
-            <div class="row">
-            <div class="col-md-6">
+            <div class="form-group">
               <label>Course:</label>
-              <select name="course" data-live-search="true" id="course" class="form-control" title="Course:" >
-              {% for row in courses %}
-              <option>{{row.courseCode}}</option>
-              {% endfor %}
+              <input type="text" class="form-control" name="course" required="1">
             </select>
             </div>
-          </div>
+
 
             <div class="form-group">
               <label>Year:</label>
               <select name="year" id="year" class="form-control" >
+                <option selected=""></option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -226,8 +231,12 @@
             <div class="form-group">
               <label>Gender:</label>
               <select name="gender" id="gender" class="form-control">
+                <option selected=""></option>
                 <option value="F">F</option>
                 <option value="M">M</option>
+                <option value="Bi">Bi</option>
+                <option value="Trans">Trans</option>
+                <option value="Queer">Queer</option>
               </select>
             </div>
 
@@ -257,7 +266,10 @@
 </body>
 <script type="text/javascript" src="{{url_for('static',filename='js/jquery-3.2.1.min.js')}}"></script>
 <script type="text/javascript" src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
-<script type="text/javascript" src="{{url_for('static',filename='js/bootstrap-select.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
+  
+</script>
 
 </html>
