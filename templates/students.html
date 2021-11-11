@@ -75,7 +75,9 @@
               <th>ID no.</th>
               <th>First Name</th>
               <th>Last Name</th>
+              <th>Course Code</th>
               <th>Course</th>
+              <th>College</th>
               <th>Year</th>
               <th>Gender</th>
               <th>Actions</th>
@@ -88,10 +90,15 @@
               <td>{{student.2}}</td>
               <td>{{student.3}}</td>
               <td>{{student.4}}</td>
+              {% for course in courses%}
+              {% if student.4 == course.1 or student.4 == course.2%}
+              <td>{{course.2}}</td>
+              <td>{{course.3}}</td>
+              {% endif %}
+              {% endfor %}
               <td>{{student.5}}</td>
               <td>{{student.6}}</td>
-
-              
+  
 
               <!--for actions--> 
               <td>
@@ -138,7 +145,12 @@
 
             <div class="form-group">
               <label>Course:</label>
-              <input type="text" class="form-control" name="course" value="{{student.4}}" required="1">
+              <select name="course" id="course" class="form-control">
+                <option selected="">{{student.4}}</option>
+                {% for course in courses%}
+                <option value="{{course.1}}">{{course.1}}</option>
+                {% endfor %}
+              </select>
             </div>
 
              <div class="form-group">
@@ -211,10 +223,13 @@
 
             <div class="form-group">
               <label>Course:</label>
-              <input type="text" class="form-control" name="course" required="1">
-            </select>
+              <select name="course" id="course" class="form-control">
+                <option disabled="" selected="">Select a Course</option>
+                {% for course in courses%}
+                <option value="{{course.1}}">{{course.1}}</option>
+                {% endfor %}
+              </select>
             </div>
-
 
             <div class="form-group">
               <label>Year:</label>

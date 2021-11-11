@@ -13,31 +13,20 @@ app.config['MYSQL_DB'] = db['mysql_db']
 
 
 mysql = MySQL(app)
+
+# STDENTS -------------------------------------------------------------------
 @app.route('/')
 def students():
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT * FROM students");
 	data = cur.fetchall()
-	cur.close()
-	return render_template('students.html',students=data)
 
-@app.route('/courses')
-def courses():
-	cur = mysql.connection.cursor()
-	cur.execute("SELECT * FROM courses");
-	data = cur.fetchall()
-	cur.close()
-	return render_template('course.html',courses=data)
+	cur.execute("SELECT * FROM courses")
+	data2=cur.fetchall()	
 
-@app.route('/colleges')
-def colleges():
-	cur = mysql.connection.cursor()
-	cur.execute("SELECT * FROM colleges");
-	data = cur.fetchall()
 	cur.close()
-	return render_template('colleges.html',colleges=data)
+	return render_template('students.html',students=data,courses=data2)
 
-# STDENTS -------------------------------------------------------------------
 #INSERT DATA IN STUDENT TABLE
 @app.route('/insert',methods=['POST'])
 def insert():
@@ -74,11 +63,11 @@ def update():
 		return redirect(url_for('students'))
 
 #DELETE TUPLE IN STUDENT DATA
-@app.route("/delete/<string:idno>",methods=['POST','GET'])
-def delete(idno):
-	if len(idno)!=0:
+@app.route("/delete/<string:no>",methods=['POST','GET'])
+def delete(no):
+	if len(no)!=0:
 		cur = mysql.connection.cursor()
-		cur.execute("DELETE FROM students WHERE idno=%s",(idno,))
+		cur.execute("DELETE FROM students WHERE no=%s",(no,))
 		mysql.connection.commit()
 		cur.close()
 		flash("Data deleted successfully!")
@@ -93,12 +82,25 @@ def search():
 		cur.execute("""SELECT * FROM students WHERE idno=%s or firstName=%s or lastName=%s or course=%s or year=%s  or gender=%s  """,
 			(searchEntry,searchEntry,searchEntry,searchEntry,searchEntry,searchEntry));
 		searchData = cur.fetchall()
+
 		cur.close()
-		return render_template('students.html',students=searchData)
+		return render_template('students.html',students=(searchData))
 
 
 #COURSES 
 #---------------------------------------------------------------------------------
+@app.route('/courses')
+def courses():
+	cur = mysql.connection.cursor()
+	cur.execute("SELECT * FROM courses");
+	data = cur.fetchall()
+
+	cur.execute("SELECT * FROM colleges");
+	data2 = cur.fetchall()
+
+	cur.close()
+	return render_template('course.html',courses=data,colleges=data2)
+
 @app.route('/addcourse',methods=['POST','GET'])
 def addcourse():
 	if request.method == "POST":
@@ -111,7 +113,7 @@ def addcourse():
 		mysql.connection.commit()
 		return redirect(url_for('courses'))
 
-@app.route("/courseUpdate",methods= ['POST'])
+@app.route("/courseUpdate",methods= ['POST','GET'])
 def courseUpdate():
 	if request.method == 'POST':
 		courseno = request.form['courseno']
@@ -150,6 +152,14 @@ def courseSearch():
 
 #COLLEGE 
 #-----------------------------------------------------------------------------------------------
+@app.route('/colleges')
+def colleges():
+	cur = mysql.connection.cursor()
+	cur.execute("SELECT * FROM colleges");
+	data = cur.fetchall()
+	cur.close()
+	return render_template('colleges.html',colleges=data)
+
 @app.route('/addcollege',methods=['POST'])
 def addcollege():
 	if request.method == "POST":
